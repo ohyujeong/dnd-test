@@ -2,15 +2,20 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 //npm install @nestjs/passport passport passport-google-oauth20
 import { config } from 'dotenv';
+import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from '../schemas/user.schema';
+import { CreateUserDto } from '../dto/create-user.dto';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor() {
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>)  {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID, 
       clientSecret: process.env.GOOGLE_SECRET,
       callbackURL: 'http://localhost:3000/auth/google/callback',
+      scope: ['email', 'profile'],
     });
   }
 
@@ -18,7 +23,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    done: VerifyCallback,
   ): Promise<any> {
     const { name, emails } = profile;
     const user = {
@@ -28,6 +32,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       accessToken,
       refreshToken,
     };
-    done(null, user);
+    const test= await new this.userModel(user)
+    test.save()
+    return user;
   }
 }
