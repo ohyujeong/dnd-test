@@ -9,15 +9,19 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class AuthService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
-  googleLogin(req) {
-    console.log(req.user)
-    if (!req.user) {
-      return 'No user from google';
+  async googleLogin(req) {
+    const user = await this.userModel.findOne({email: req.user.email})
+    if(user){
+      return '로그인!'
     }
+    // console.log(req.user)
+    // if (!req.user) {
+    //   return 'No user from google';
+    // }
 
-    return {
-      message: 'User information from google',
-      user: req.user,
-    };
+    // return {
+    //   message: 'User information from google',
+    //   user: req.user,
+    // };
   }
 }

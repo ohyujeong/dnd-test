@@ -16,11 +16,4 @@ export class AuthController {
     googleAuthRedirect(@Req() req) {
       return this.authService.googleLogin(req);
     }
-
-    // @Post('google/callback')
-    // @UseGuards(AuthGuard('google'))
-    // googleUser(@Req() req){
-    //   console.log('post test')
-    //   return 'post test'
-    // }
 }
