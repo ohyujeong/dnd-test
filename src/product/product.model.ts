@@ -1,15 +1,40 @@
+import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
+import { IsNotEmpty, IsString } from 'class-validator';
 import * as mongoose from 'mongoose';
 
-export const ProductSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true },
-  });
-
-
-export interface Product extends mongoose.Document{
-    id: string; //TS는 타입 소문자로 시작
-    title: string;
-    description: string;
-    price: number;
+const options: SchemaOptions = {
+  timestamps: true,
+  id: true,
 }
+
+@Schema(options)
+export class Product extends mongoose.Document{
+  @Prop({
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+  
+  @Prop()
+  description: string;
+
+  @Prop()
+  price: number;
+}
+
+export const ProductSchema = SchemaFactory.createForClass(Product);
+
+// export const ProductSchema = new mongoose.Schema({
+//     title: { type: String, required: true },
+//     description: { type: String, required: true },
+//     price: { type: Number, required: true },
+//   });
+
+
+// export interface Product extends mongoose.Document{
+//     id: string;
+//     title: string;
+//     description: string;
+//     price: number;
+// }
