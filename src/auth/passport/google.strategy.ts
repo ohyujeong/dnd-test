@@ -32,8 +32,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       accessToken,
       refreshToken,
     };
-    const test= await new this.userModel(user)
-    test.save()
+    const newUser = await this.userModel.findOne({email: emails[0].value})
+    if(!newUser){
+      await new this.userModel(user).save();
+    }
+    else{
+      console.log('로그인');
+      return "로그인!"
+    }
     return user;
   }
 }
