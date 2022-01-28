@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { IsNotEmpty, IsString } from 'class-validator';
 import * as mongoose from 'mongoose';
+const autoIncrement = require('mongoose-auto-increment');
 
 const options: SchemaOptions = {
   timestamps: true,
