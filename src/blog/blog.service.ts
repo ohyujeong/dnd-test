@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post } from './interfaces/post.interface';
 import { CreatePostDTO } from './dto/create-post.dto';
-// import { UpdatePostDTO } from './dto/update-post.dto';
+import { UpdatePostDTO } from './dto/update-post.dto';
 
 @Injectable()
 export class BlogService {
@@ -28,11 +28,11 @@ export class BlogService {
     return posts;
   }
 
-  // async editPost(id: Number, updatePostDTO: UpdatePostDTO): Promise<Post> {
-  //   const editedPost = await this.postModel
-  //     .findOneAndUpdate({blogId: id}, updatePostDTO, { new: true });
-  //   return editedPost;
-  // }
+  async editPost(id: Number, updatePostDTO: UpdatePostDTO): Promise<Post> {
+    const editedPost = await this.postModel
+      .findOneAndUpdate({blogId: id}, updatePostDTO, { new: true });
+    return editedPost;
+  }
 
   async deletePost(id: Number): Promise<any> {
     const deletedPost = await this.postModel

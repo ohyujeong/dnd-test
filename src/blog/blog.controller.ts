@@ -1,7 +1,7 @@
 import { Controller, Get, Res, HttpStatus, Param, NotFoundException, Post, Body, Put, Query, Delete, Patch } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreatePostDTO } from './dto/create-post.dto';
-// import { UpdatePostDTO } from './dto/update-post.dto';
+import { UpdatePostDTO } from './dto/update-post.dto';
 import { ValidateObjectId } from './shared/pipes/validate-object-id.pipes';
 import { ApiTags, ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiCreatedResponse, ApiParam, ApiProperty } from '@nestjs/swagger';
 
@@ -42,21 +42,23 @@ export class BlogController {
         return res.status(HttpStatus.OK).json(posts);
     }
 
-    // @Patch('/edit/:blogId')
-    // async editPost(
-    //     @Res() res,
-    //     @Param('blogId') blogId: Number,
-    //     @Body() updatePostDTO: UpdatePostDTO
-    // ) {
-    //     const editedPost = await this.blogService.editPost(blogId, updatePostDTO);
-    //     if (!editedPost) {
-    //         throw new NotFoundException('Post does not exist!');
-    //     }
-    //     return res.status(HttpStatus.OK).json({
-    //         message: 'Post has been successfully updated',
-    //         post: editedPost,
-    //     });
-    // }
+    @Patch('/edit/:blogId')
+    @ApiResponse({ description: '특정 글 수정 API' })
+    @ApiBody({ type: CreatePostDTO })
+    async editPost(
+        @Res() res,
+        @Param('blogId') blogId: Number,
+        @Body() updatePostDTO: UpdatePostDTO
+    ) {
+        const editedPost = await this.blogService.editPost(blogId, updatePostDTO);
+        if (!editedPost) {
+            throw new NotFoundException('Post does not exist!');
+        }
+        return res.status(HttpStatus.OK).json({
+            message: 'Post has been successfully updated',
+            post: editedPost,
+        });
+    }
 
     // Delete a post using ID
     @Delete('/delete/:blogId')
