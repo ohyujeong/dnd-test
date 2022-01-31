@@ -4,12 +4,31 @@ import { CreatePostDTO } from './dto/create-post.dto';
 import { UpdatePostDTO } from './dto/update-post.dto';
 import { ValidateObjectId } from './shared/pipes/validate-object-id.pipes';
 import { ApiTags, ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiCreatedResponse, ApiParam, ApiProperty } from '@nestjs/swagger';
+import { KeyWord } from './schemas/keyword.schema';
+import { CreateKeyWordDto } from './dto/create-keyword.dto';
 
 @ApiTags('blog')
 @Controller('blog')
 export class BlogController {
 
     constructor(private blogService: BlogService) { }
+
+    @Get('/keyword')
+    @ApiResponse({ description: '키워드 조회' })
+    getFirstmailForms(): Promise<KeyWord[]> {
+      return this.blogService.getKeyWord();
+    }
+  
+    @Post('/keyword')
+    @ApiBody({ type: CreateKeyWordDto })
+    addFirstGreeting(@Body() createKeyWordDto: CreateKeyWordDto): Promise<KeyWord> {
+      return this.blogService.addKeyWord(createKeyWordDto);
+    }
+
+    @Get('/random')
+    getRandom(){
+        return this.blogService.getRandom();
+    }
 
     // Submit a post
     @Post('/post')
