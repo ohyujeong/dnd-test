@@ -5,7 +5,9 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,{
+    logger: false,
+  });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ //파이프
     whitelist: true, //true로 설정하면 아무 데코레이터도 없는 어떠한 property의 object를 거릅니다.

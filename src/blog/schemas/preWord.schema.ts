@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
+import * as moment from 'moment-timezone';
+
 
 export type PreWordDocument = PreWord & Document;
 
@@ -14,6 +16,12 @@ export class PreWord {
 
   @Prop()
   content:string;
+
+  @Prop({
+    type:Date,
+    default: moment().format("YYYY-MM-DD 00:00:00")
+  })
+  createAt:Date;
 }
 
 export const PreWordSchema = SchemaFactory.createForClass(PreWord);

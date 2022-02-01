@@ -3,22 +3,44 @@ import { Model } from "mongoose";
 import { KeyWord, KeyWordDocument } from "./schemas/keyword.schema";
 import { CreateKeyWordDto } from "./dto/create-keyword.dto";
 import { PreWord, PreWordDocument } from "./schemas/preWord.schema";
+import { Logger } from "@nestjs/common";
 
 export class KeyWordRepository {
     constructor(
         @InjectModel(KeyWord.name)
         private KeyWordModel: Model<KeyWordDocument>,
         @InjectModel(PreWord.name)
-        private PreWordModel: Model<PreWordDocument>
+        private PreWordModel: Model<PreWordDocument>,
+        private readonly logger = new Logger(KeyWordRepository.name),
     ) { }
 
     async saveKeyWord(createKeyWordDto: CreateKeyWordDto): Promise<KeyWord> {
         const keyWord = new this.KeyWordModel(createKeyWordDto);
+        this.logger.log("로그테스트" + keyWord);
         return keyWord.save();
     }
 
     async findKeyWord(): Promise<KeyWord[]> {
         return this.KeyWordModel.find();
+    }
+
+
+    async test(): Promise<any> {
+        const date2 = new Date();
+        const date = await this.PreWordModel.findOne({content:"시간"});
+        // console.log(date.createAt)
+        // const date1 = date[0].createAt
+        var month = date2.getMonth()
+        console.log(month)
+        var test = date2.getDate()
+        var test2 = date.createAt.getDate()
+        console.log(test)
+        console.log(test2)
+        // console.log(date2.getDate)
+        // console.log(date2.getDay)
+        // console.log(date1.getDate)
+        // console.log(date1.getDay)
+        return 'ddd';
     }
 
     async findRandom() {

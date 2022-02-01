@@ -13,6 +13,11 @@ export class BlogController {
 
     constructor(private blogService: BlogService) { }
 
+    @Get('/test')
+    getTest(): Promise<any>{
+        return this.blogService.test();
+    }
+
     @Get('/keyword')
     @ApiResponse({ description: '키워드 조회' })
     getFirstmailForms(): Promise<KeyWord[]> {

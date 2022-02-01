@@ -13,6 +13,11 @@ export class BlogService {
   constructor(@InjectModel('Post') private readonly postModel: Model<Post>,
     private readonly keyWordRepository: KeyWordRepository) { }
 
+  
+  async test(): Promise<any> {
+    return this.keyWordRepository.test();
+  }
+
   async addKeyWord(createKeyWordDto): Promise<KeyWord> {
     return this.keyWordRepository.saveKeyWord(createKeyWordDto);
   }
