@@ -1,26 +1,58 @@
-import { Controller, Get, Res, HttpStatus, Param, NotFoundException, Post, Body, Put, Query, Delete } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Param, NotFoundException, Post, Body, Put, Query, Delete, Patch } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreatePostDTO } from './dto/create-post.dto';
+import { UpdatePostDTO } from './dto/update-post.dto';
 import { ValidateObjectId } from './shared/pipes/validate-object-id.pipes';
+import { ApiTags, ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiCreatedResponse, ApiParam, ApiProperty } from '@nestjs/swagger';
+import { KeyWord } from './schemas/keyword.schema';
+import { CreateKeyWordDto } from './dto/create-keyword.dto';
 
+@ApiTags('blog')
 @Controller('blog')
 export class BlogController {
 
     constructor(private blogService: BlogService) { }
 
-    // Submit a post
-    @Post('/post')
-    async addPost(@Res() res, @Body() createPostDTO: CreatePostDTO) {
-        const newPost = await this.blogService.addPost(createPostDTO);
-        return res.status(HttpStatus.OK).json({
-            message: 'Post has been submitted successfully!',
-            post: newPost,
-        });
+    @Get('/test')
+    getTest(): Promise<any>{
+        return this.blogService.test();
     }
 
-    @Get('post/:postID')
-    async getPost(@Res() res, @Param('postID', new ValidateObjectId()) postID) {
-        const post = await this.blogService.getPost(postID);
+    @Get('/keyword')
+    @ApiResponse({ description: '키워드 조회' })
+    getFirstmailForms(): Promise<KeyWord[]> {
+      return this.blogService.getKeyWord();
+    }
+  
+    @Post('/keyword')
+    @ApiBody({ type: CreateKeyWordDto })
+    addFirstGreeting(@Body() createKeyWordDto: CreateKeyWordDto): Promise<KeyWord> {
+      return this.blogService.addKeyWord(createKeyWordDto);
+    }
+
+    @Get('/random')
+    getRandom(){
+        return this.blogService.getRandom();
+    }
+
+    // Submit a post
+    @Post('/post')
+    @ApiResponse({ description: '글 작성 API' })
+    @ApiBody({ type: CreatePostDTO })
+    @ApiCreatedResponse({
+        description: '글 작성 성공 여부', schema: {
+            example: { success: true }
+        }
+    })
+    async addPost(@Res() res, @Body() createPostDTO: CreatePostDTO) {
+        const newPost = await this.blogService.addPost(createPostDTO);
+        return res.status(HttpStatus.CREATED).json(newPost);
+    }
+
+    @Get('post/:blogId')
+    @ApiResponse({ description: '특정 글 조회 API' })
+    async getPost(@Res() res, @Param('blogId') blogId: Number) {
+        const post = await this.blogService.getPost(blogId);
         if (!post) {
             throw new NotFoundException('Post does not exist!');
         }
@@ -28,19 +60,21 @@ export class BlogController {
     }
 
     @Get('posts')
+    @ApiResponse({ description: '전체 글 조회 API' })
     async getPosts(@Res() res) {
         const posts = await this.blogService.getPosts();
         return res.status(HttpStatus.OK).json(posts);
     }
 
-    // Edit a particular post using ID
-    @Put('/edit')
+    @Patch('/edit/:blogId')
+    @ApiResponse({ description: '특정 글 수정 API' })
+    @ApiBody({ type: CreatePostDTO })
     async editPost(
         @Res() res,
-        @Query('postID', new ValidateObjectId()) postID,
-        @Body() createPostDTO: CreatePostDTO,
+        @Param('blogId') blogId: Number,
+        @Body() updatePostDTO: UpdatePostDTO
     ) {
-        const editedPost = await this.blogService.editPost(postID, createPostDTO);
+        const editedPost = await this.blogService.editPost(blogId, updatePostDTO);
         if (!editedPost) {
             throw new NotFoundException('Post does not exist!');
         }
@@ -49,11 +83,11 @@ export class BlogController {
             post: editedPost,
         });
     }
-    
+
     // Delete a post using ID
-    @Delete('/delete')
-    async deletePost(@Res() res, @Query('postID', new ValidateObjectId()) postID) {
-        const deletedPost = await this.blogService.deletePost(postID);
+    @Delete('/delete/:blogId')
+    async deletePost(@Res() res, @Param('blogId') blogId: Number,) {
+        const deletedPost = await this.blogService.deletePost(blogId);
         if (!deletedPost) {
             throw new NotFoundException('Post does not exist!');
         }
