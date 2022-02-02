@@ -2,7 +2,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { KeyWord, KeyWordDocument } from "./schemas/keyword.schema";
 import { CreateKeyWordDto } from "./dto/create-keyword.dto";
-import { PreWord, PreWordDocument } from "./schemas/preWord.schema";
+import { PreWord, PreWordDocument } from "./schemas/preword.schema";
 import { Logger } from "@nestjs/common";
 
 export class KeyWordRepository {
