@@ -2,7 +2,6 @@ import { Controller, Get, Res, HttpStatus, Param, NotFoundException, Post, Body,
 import { BlogService } from './blog.service';
 import { CreatePostDTO } from './dto/create-post.dto';
 import { UpdatePostDTO } from './dto/update-post.dto';
-import { ValidateObjectId } from './shared/pipes/validate-object-id.pipes';
 import { ApiTags, ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiCreatedResponse, ApiParam, ApiProperty } from '@nestjs/swagger';
 import { KeyWord } from './schemas/keyword.schema';
 import { CreateKeyWordDto } from './dto/create-keyword.dto';

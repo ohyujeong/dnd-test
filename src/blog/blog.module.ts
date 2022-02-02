@@ -4,7 +4,7 @@ import { BlogController } from './blog.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlogSchema } from './schemas/blog.schema';
 import { KeyWord, KeyWordSchema } from './schemas/keyword.schema';
-import { PreWord, PreWordSchema } from './schemas/preWord.schema';
+import { PreWord, PreWordSchema } from './schemas/preword.schema';
 import { KeyWordRepository } from './keyword.repository';
 
 @Module({
