@@ -5,7 +5,7 @@ import { Post } from './interfaces/post.interface';
 import { CreatePostDTO } from './dto/create-post.dto';
 import { UpdatePostDTO } from './dto/update-post.dto';
 import { KeyWordRepository } from './keyword.repository';
-import { KeyWord } from './schemas/keyWord.schema';
+import { KeyWord } from './schemas/keyword.schema';
 import { Schedule } from 'node-schedule';
 
 @Injectable()

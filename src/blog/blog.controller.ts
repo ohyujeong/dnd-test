@@ -3,7 +3,7 @@ import { BlogService } from './blog.service';
 import { CreatePostDTO } from './dto/create-post.dto';
 import { UpdatePostDTO } from './dto/update-post.dto';
 import { ApiTags, ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiCreatedResponse, ApiParam, ApiProperty } from '@nestjs/swagger';
-import { KeyWord } from './schemas/keyWord.schema';
+import { KeyWord } from './schemas/keyword.schema';
 import { CreateKeyWordDto } from './dto/create-keyword.dto';
 
 @ApiTags('blog')
