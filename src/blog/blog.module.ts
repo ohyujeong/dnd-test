@@ -3,8 +3,13 @@ import { BlogService } from './blog.service';
 import { BlogController } from './blog.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlogSchema } from './schemas/blog.schema';
+<<<<<<< Updated upstream
 import { KeyWord, KeyWordSchema } from './schemas/keyword.schema';
 import { PreWord, PreWordSchema } from './schemas/preword.schema';
+=======
+import { KeyWord, KeyWordSchema } from './schemas/keyWord.schema';
+import { PreWord, PreWordSchema } from './schemas/preWord.schema';
+>>>>>>> Stashed changes
 import { KeyWordRepository } from './keyword.repository';
 
 @Module({
